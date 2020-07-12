@@ -1,0 +1,37 @@
+<app-header titulo="Emergencia"></app-header>
+<ion-content color="warning">
+  <form (ngSubmit)="siguiente(formAlerta)"
+        novalidate="novalidate"
+        #formAlerta="ngForm">
+    <ion-card class="ion-padding" color="warning">
+      <img *ngIf="fbSrvc.imagenAlerta" 
+            [src]="fbSrvc.imagenAlerta" 
+            (click)="siguiente(formAlerta)"
+            />
+      <div *ngIf="fbSrvc.pasoAlerta === 1"
+           class="ion-text-center tam-30">
+        <ion-item color="warning" lines="none" class="ion-text-center">
+          <ion-label>Ingresa el código</ion-label>
+        </ion-item>
+          <ion-input type="text" 
+                placeholder="_  _  _"
+                autoFocus
+                tabindex="0"
+                maxlength="3"
+                inputmode="numeric"
+                [(ngModel)]="codigoAlerta"
+                name="codigo"
+                (click)="siguiente(formAlerta)"
+                [disabled]="fbSrvc.alertaEnviada"
+                >
+        </ion-input>
+        <ion-item color="warning" lines="none"></ion-item>
+      </div>
+      <div *ngIf="fbSrvc.alertaEnviada" class="ion-text-center">
+        <ion-text>
+          <h3>{{ fbSrvc.textoAlerta }}</h3>
+        </ion-text>
+      </div>
+    </ion-card>
+  </form>
+</ion-content>

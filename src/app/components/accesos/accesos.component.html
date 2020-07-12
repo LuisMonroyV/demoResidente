@@ -1,0 +1,41 @@
+<ion-card color="light" *ngIf="accesos.length > 0">
+  <ion-card-header>
+    <ion-card-subtitle class="tam-16"><strong>MIS ACCESOS</strong></ion-card-subtitle>
+    <div *ngFor="let acc of accesos; let i = index"
+         color="light"
+         class="tam-16"
+         >
+      <p>
+        {{i+1}}.- {{ acc.fecha |fechaCorta: 'dddd DD-MMM @HH:mm' : '' }}
+      </p>
+      <p>
+        Visitante: <ion-text color="primary">{{ acc.nombreVisitante }}</ion-text>
+      </p>
+      <p>
+        Patente: <ion-text color="primary">{{ acc.patente }}</ion-text>
+      </p>
+      <p>
+        Autorizado por: <ion-text color="primary">{{ acc.guardia }}</ion-text>
+      </p>
+      <p>
+        Observaciones: <ion-text color="primary">{{ acc.obs }}</ion-text>
+      </p>
+      <ion-item color="light" class="ion-no-padding">
+        Residente contactado?: 
+        <ion-text color="danger" *ngIf="!acc.residenteResponde">
+          <strong> NO </strong>
+        </ion-text> 
+        <ion-text color="primary" *ngIf="acc.residenteResponde">
+          SI
+        </ion-text> 
+      </ion-item>
+      <br>
+    </div>
+  </ion-card-header>  
+</ion-card>
+<ion-card *ngIf="accesos.length === 0"
+          class="ion-text-center ion-padding"
+          color="medium"
+          >
+  <ion-card-subtitle>No hay datos de accesos aún.</ion-card-subtitle>
+</ion-card>

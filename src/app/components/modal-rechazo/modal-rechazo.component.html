@@ -1,0 +1,49 @@
+<ion-header no-border translucent="true">
+  <ion-toolbar>
+    <ion-title>Motivo del rechazo</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="cerrarModal()"
+                  color="danger"
+                  >
+        Cerrar
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form (ngSubmit)="guardarMotivo()"
+        novalidate="novalidate"
+        #formMotivo="ngForm"
+      > 
+    <ion-grid fixed>
+      <ion-row>
+        <ion-col>
+          <ion-item>
+            <ion-input type="text" 
+                      [(ngModel)]="motivo"
+                      name="motivo"
+                      required
+                      autofocus
+                      tabindex="0"
+                      clearInput
+                      >
+            </ion-input>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col>
+            <ion-button expand="block"
+                        type="submit"
+                        [disabled]="!formMotivo.valid"
+                        >
+                Guardar Cambios
+            </ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </form>
+</ion-content>
+  

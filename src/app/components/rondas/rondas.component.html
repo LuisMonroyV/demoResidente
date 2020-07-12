@@ -1,0 +1,36 @@
+<ion-card color="light" *ngIf="rondas.length > 0">
+  <ion-card-header>
+    <ion-card-subtitle class="tam-16"><strong>RONDAS</strong></ion-card-subtitle>
+    <div *ngFor="let ronda of rondas; let i = index"
+         color="light"
+         class="tam-16"
+         >
+      <p>
+        {{i+1}}.- {{ ronda.fechaInicio |fechaCorta: 'dddd DD-MMM @HH:mm' : '' }}
+      </p>
+      <p>
+          Guardia: <ion-text color="primary">{{ ronda.guardia }}</ion-text>
+      </p>
+      <ion-text>Novedades:</ion-text>
+      <ion-item *ngFor="let novedad of ronda.novedades" 
+                class="ion-no-padding"
+                color="light"
+                >
+          <ion-text color="primary">
+            ({{ novedad.fecha | fechaCorta : 'HH:mm': '' }}) 
+          </ion-text>  
+          <ion-text>
+            : {{ novedad.descripcion }} 
+          </ion-text>
+      </ion-item>
+      <ion-item color="light" class="ion-no-padding" lines="none">
+      </ion-item>
+    </div>
+  </ion-card-header>  
+</ion-card>
+<ion-card *ngIf="rondas.length === 0"
+          class="ion-text-center ion-padding"
+          color="medium"
+          >
+  <ion-card-subtitle>No hay datos de rondas aún.</ion-card-subtitle>
+</ion-card>

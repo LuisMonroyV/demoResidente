@@ -1,0 +1,26 @@
+<ion-card *ngIf="noticias.length > 0">
+  <ion-card-header>
+    <ion-card-subtitle class="tam-16"><strong>NOTICIAS</strong></ion-card-subtitle>
+  </ion-card-header>  
+  <ion-list *ngFor="let noticia of noticias">
+    <ion-item lines="none">
+      <br>{{ noticia.titulo}}
+    </ion-item>
+    <ion-item lines="none">
+      <img [src]="noticia.urlImagen" />
+    </ion-item>
+    <ion-item class="ion-text-end" lines="none">
+      <ion-label class="tam-12" color="primary">por @{{noticia.creadaPor}} {{noticia.fecha | fechaCorta : '' : 'pasado' }}</ion-label>
+    </ion-item>
+    <ion-item lines="none">
+      <ion-text [innerHTML]="noticia.texto"></ion-text>
+    </ion-item>
+    <ion-item-divider></ion-item-divider>
+  </ion-list>
+</ion-card>
+<ion-card *ngIf="noticias.length === 0"
+          class="ion-text-center ion-padding"
+          color="medium"
+          >
+  <ion-card-subtitle>No hay noticias aún.</ion-card-subtitle>
+</ion-card>

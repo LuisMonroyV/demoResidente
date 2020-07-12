@@ -1,0 +1,26 @@
+<ion-content fullscreen ion-padding scroll-y="false">
+  <ion-slides pager class="ion-padding">
+    <ion-slide>
+      <img src="assets/images/slide-4.png"/>
+      <h2>Bienvenido a <br><b>Comunidad Segura</b></h2>
+      <p class="ion-padding">La aplicación diseñada para su seguridad y la de su familia.</p>
+    </ion-slide>
+    <ion-slide>
+      <img src="assets/images/slide-5.png"/>
+      <h2>Reciba ayuda inmediata</h2>
+      <p class="ion-padding">Botón de pánico conectado a sus vecinos y guardias.</p>
+    </ion-slide>
+    <ion-slide>
+      <img src="assets/images/slide-6.png"/>
+      <h2>Registre sus visitas</h2>
+      <p>Revise los accesos a su domicilio.</p>
+      <ion-button fill="clear" 
+                  (click)="primeraVez()"
+                  size="large"
+                  >
+          Empezar 
+        <ion-icon slot="end" name="arrow-forward"></ion-icon>
+      </ion-button>
+    </ion-slide>
+  </ion-slides>
+</ion-content>

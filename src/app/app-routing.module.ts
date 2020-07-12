@@ -3,14 +3,58 @@ import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
   {
-    path: 'home',
-    loadChildren: () => import('./home/home.module').then( m => m.HomePageModule)
-  },
-  {
     path: '',
-    redirectTo: 'home',
+    redirectTo: 'folder/Inicio',
     pathMatch: 'full'
   },
+  {
+    path: 'folder/:id',
+    loadChildren: () => import('./pages/folder/folder.module').then( m => m.FolderPageModule)
+  },
+  {
+    path: 'login',
+    loadChildren: () => import('./pages/login/login.module').then( m => m.LoginPageModule)
+  },
+  {
+    path: 'registro',
+    loadChildren: () => import('./pages/registro/registro.module').then( m => m.RegistroPageModule)
+  },
+  {
+    path: 'slides',
+    loadChildren: () => import('./pages/slides/slides.module').then( m => m.SlidesPageModule)
+  },
+  {
+    path: 'politicas',
+    loadChildren: () => import('./pages/politicas/politicas.module').then( m => m.PoliticasPageModule)
+  },
+  {
+    path: 'contrasena',
+    loadChildren: () => import('./pages/contrasena/contrasena.module').then( m => m.ContrasenaPageModule)
+  },
+  {
+    path: 'activar-mail',
+    loadChildren: () => import('./pages/activar-mail/activar-mail.module').then( m => m.ActivarMailPageModule)
+  },
+  {
+    path: 'mis-datos',
+    loadChildren: () => import('./pages/mis-datos/mis-datos.module').then( m => m.MisDatosPageModule)
+  },
+  {
+    path: 'usuarios',
+    loadChildren: () => import('./pages/usuarios/usuarios.module').then( m => m.UsuariosPageModule)
+  },
+  {
+    path: 'agenda',
+    loadChildren: () => import('./pages/agenda/agenda.module').then( m => m.AgendaPageModule)
+  },
+  {
+    path: 'noticia-add',
+    loadChildren: () => import('./pages/noticia-add/noticia-add.module').then( m => m.NoticiaAddPageModule)
+  },
+  {
+    path: 'alerta',
+    loadChildren: () => import('./pages/alerta/alerta.module').then( m => m.AlertaPageModule)
+  }
 ];
 
 @NgModule({
@@ -19,4 +63,4 @@ const routes: Routes = [
   ],
   exports: [RouterModule]
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

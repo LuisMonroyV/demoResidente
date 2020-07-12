@@ -1,0 +1,72 @@
+<ion-header no-border>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+        <ion-back-button  defaultHref="login" text=""></ion-back-button>
+    </ion-buttons>
+    <ion-title class="ion-text-start">Activación de Cuenta</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <ion-list-header>
+      <ion-label>Validación de Email</ion-label>
+      <ion-icon name="remove-circle-sharp"
+                size="large"
+                color="danger"
+                *ngIf="!fbSrvc.parametros.verificado"
+                >
+      </ion-icon>
+      <ion-icon name="checkmark-done-sharp"
+                size="large"
+                color="primary"
+                *ngIf="fbSrvc.parametros.verificado"
+                >
+      </ion-icon>
+    </ion-list-header>
+    <ion-card *ngIf="!fbSrvc.parametros.verificado">
+        <ion-card-content class="ion-text-center">
+          <h2>Activa tu cuenta mediante el correo electrónico que te enviamos a <strong> {{ fbSrvc.persona.email }}</strong>, llegará en unos minutos.</h2>
+        </ion-card-content>  
+        <ion-button (click)="reenviar()" 
+                    expand="block" 
+                    fill="clear" 
+                    shape="round"
+                    [disabled]="fbSrvc.enviado"
+                    >
+          Reenviar Correo
+        </ion-button>
+    </ion-card>
+  </ion-list>
+  
+  <ion-list>
+    <ion-list-header>
+      <ion-label>Validación de Administrador</ion-label>
+      <ion-icon name="remove-circle-sharp"
+                size="large"
+                color="danger"
+                *ngIf="!fbSrvc.parametros.validado"
+                >
+      </ion-icon>
+      <ion-icon name="checkmark-done-sharp"
+                size="large"
+                color="primary"
+                *ngIf="fbSrvc.parametros.validado"
+                >
+      </ion-icon>
+    </ion-list-header>
+    <ion-card *ngIf="!fbSrvc.parametros.validado">
+        <ion-card-content class="ion-text-center">
+          <h2>{{ fbSrvc.persona.obs }}</h2>
+        </ion-card-content>  
+    </ion-card>
+  </ion-list>
+
+  <ion-button (click)="irLogin()" 
+              expand="block" 
+              fill="clear" 
+              shape="round"
+              >
+    Entrar
+  </ion-button>
+</ion-content>

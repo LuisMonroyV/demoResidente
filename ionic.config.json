@@ -1,5 +1,8 @@
 {
-  "name": "residente",
-  "integrations": {},
+  "name": "appDemoComunidadSegura",
+  "integrations": {
+    "capacitor": {},
+    "cordova": {}
+  },
   "type": "angular"
 }
