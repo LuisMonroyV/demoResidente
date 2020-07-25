@@ -10,7 +10,7 @@
 <ion-content>
   <ion-list>
     <ion-list-header>
-      <ion-label>Validación de Email</ion-label>
+      <ion-label>PASO 1: Validación de Email</ion-label>
       <ion-icon name="remove-circle-sharp"
                 size="large"
                 color="danger"
@@ -28,20 +28,20 @@
         <ion-card-content class="ion-text-center">
           <h2>Activa tu cuenta mediante el correo electrónico que te enviamos a <strong> {{ fbSrvc.persona.email }}</strong>, llegará en unos minutos.</h2>
         </ion-card-content>  
-        <ion-button (click)="reenviar()" 
-                    expand="block" 
-                    fill="clear" 
-                    shape="round"
-                    [disabled]="fbSrvc.enviado"
-                    >
-          Reenviar Correo
-        </ion-button>
+        <div class="ion-text-end">
+          <ion-button (click)="reenviar()" 
+                      fill="clear" 
+                      [disabled]="fbSrvc.enviado || fbSrvc.persona.estado === '1-rechazado'"
+                      >
+            Reenviar Correo
+          </ion-button>
+        </div>
     </ion-card>
   </ion-list>
   
   <ion-list>
     <ion-list-header>
-      <ion-label>Validación de Administrador</ion-label>
+      <ion-label>PASO 2: Validación de Administrador</ion-label>
       <ion-icon name="remove-circle-sharp"
                 size="large"
                 color="danger"
@@ -61,12 +61,33 @@
         </ion-card-content>  
     </ion-card>
   </ion-list>
-
-  <ion-button (click)="irLogin()" 
-              expand="block" 
-              fill="clear" 
-              shape="round"
-              >
-    Entrar
-  </ion-button>
+  <div class="ion-padding ion-text-center">
+    <ion-button (click)="irLogin()" 
+                *ngIf="fbSrvc.persona.estado === '0-nuevo'"
+                >  
+      Entrar
+    </ion-button>
+    <div *ngIf="fbSrvc.persona.estado === '1-rechazado'">
+      <ion-button (click)="eliminarCuenta()" 
+                  color="warning"
+                  [disabled]="eliminando"
+                  >
+        Reintentar Registro
+      </ion-button>
+      <br>
+      <ion-text color="danger">Esto eliminará todos sus datos ingresados para poder empezar nuevamente.</ion-text>
+    </div>
+  </div>
+  <div class="ion-text-end ion-padding" *ngIf="fbSrvc.persona.estado === '0-nuevo'">
+    <ion-chip color="primary" mode="ios" outline="true">
+      <ion-icon name="alarm-outline" color="primary"></ion-icon>
+      <ion-text color="primary">
+        <i> Próximo chequeo en  
+          <ion-text *ngIf="minutosRevision > 1"> {{ minutosRevision }} minutos.</ion-text>
+          <ion-text *ngIf="minutosRevision === 1"> menos de minuto.</ion-text>
+          <ion-text *ngIf="minutosRevision === 0"> estos momentos.</ion-text>
+        </i>
+      </ion-text>
+    </ion-chip>
+  </div>
 </ion-content>

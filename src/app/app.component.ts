@@ -31,6 +31,11 @@ export class AppComponent implements OnInit {
       icon: 'call'
     },
     {
+      title: 'Aviso de Visitas',
+      url: '/aviso',
+      icon: 'pizza'
+    },
+    {
       title: 'Botón de Pánico',
       url: '/alerta',
       icon: 'megaphone'

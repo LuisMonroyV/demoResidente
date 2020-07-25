@@ -41,6 +41,7 @@ export class RegistroPage implements OnInit {
       this.fbSrvc.persona.movil = this.prefijoMovil + this.fbSrvc.persona.movil;
       this.fbSrvc.persona.telefono = this.prefijoFijo + this.fbSrvc.persona.telefono;
       this.fbSrvc.persona.numero = this.fbSrvc.persona.numero.trim();
+      this.fbSrvc.persona.fechaRegistro = new Date();
       this.fbSrvc.registroFirebase( this.fbSrvc.login.email, this.fbSrvc.login.contrasena)
         .then( async respFB => {
           if (respFB) {

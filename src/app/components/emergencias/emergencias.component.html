@@ -21,10 +21,10 @@
       <p>
         <ion-item color="warning" class="ion-no-padding">
           Estado actual: 
-          <ion-text color="danger" *ngIf="emergencia.estado !== 'Cerrada'">
+          <ion-text color="danger" *ngIf="emergencia.estado !== 'Cerrada'" class="ion-padding">
             <strong> {{ emergencia.estado }} </strong>
           </ion-text> 
-          <ion-text color="primary" *ngIf="emergencia.estado === 'Cerrada'">
+          <ion-text color="primary" *ngIf="emergencia.estado === 'Cerrada'" class="ion-padding">
             {{ emergencia.estado }}
           </ion-text> 
 

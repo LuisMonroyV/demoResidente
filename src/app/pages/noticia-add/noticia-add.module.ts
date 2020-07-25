@@ -21,10 +21,11 @@ import { QuillModule } from 'ngx-quill';
       modules: {
         syntax: true,
         toolbar: [
-            ['bold', 'italic', 'underline'],        // toggled buttons
+            [{ size: [ 'small', false, 'large', 'huge' ]}],
+            ['bold', 'italic', 'underline', 'link'],        // toggled buttons
             [{ header: 1 }, { header: 2 }],               // custom button values
             [{ list: 'ordered'}, { list: 'bullet' }],
-          ]
+        ],
       }
     }),
   ],

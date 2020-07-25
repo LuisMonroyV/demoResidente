@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FirebaseService } from '../../services/firebase.service';
 import { Persona } from '../../interfaces/fb-interface';
-import { ModalController, IonList } from '@ionic/angular';
+import { ModalController, IonList, AlertController } from '@ionic/angular';
 import { ModalRechazoComponent } from '../../components/modal-rechazo/modal-rechazo.component';
 
 @Component({
@@ -17,7 +17,8 @@ export class UsuariosPage implements OnInit {
   motivo = '';
 
   constructor( public fbSrvc: FirebaseService,
-               private modalCtrl: ModalController ) { }
+               private modalCtrl: ModalController,
+               private alertCtrl: AlertController ) { }
 
   ngOnInit() {
     this.fbSrvc.loading('Cargando información...');
@@ -60,7 +61,7 @@ export class UsuariosPage implements OnInit {
   rechazar( pos: number, tipo: string) {
     this.modalMotivo(tipo, pos)
     .then( () => {
-      if (this.motivo !== '') {
+      if (this.motivo !== '' && this.motivo !== 'Los datos de tu cuenta deben ser validados por el administrador de la aplicación.') {
         console.log('Motivo de rechazo:', this.motivo);
         console.log('Tipo:', tipo);
         if (tipo === 'nuevos') {

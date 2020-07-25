@@ -143,4 +143,8 @@ export class NoticiaAddPage implements OnInit {
     this.nuevaNoticia.idNoticia = '';
     this.nuevaNoticia.notificar = false;
   }
+  cerrar() {
+    this.limpiarNoticia();
+    this.router.navigate(['/folder/inicio']);
+  }
 }

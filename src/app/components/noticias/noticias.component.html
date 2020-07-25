@@ -3,8 +3,9 @@
     <ion-card-subtitle class="tam-16"><strong>NOTICIAS</strong></ion-card-subtitle>
   </ion-card-header>  
   <ion-list *ngFor="let noticia of noticias">
-    <ion-item lines="none">
-      <br>{{ noticia.titulo}}
+    <ion-item lines="none" class="tam-18">
+      <br>
+      <strong><u>{{ noticia.titulo}}</u></strong>
     </ion-item>
     <ion-item lines="none">
       <img [src]="noticia.urlImagen" />

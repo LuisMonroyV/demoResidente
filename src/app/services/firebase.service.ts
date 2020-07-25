@@ -3,7 +3,7 @@ import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/fire
 import { Injectable } from '@angular/core';
 import { LoadingController } from '@ionic/angular';
 import { NativeAudio } from '@ionic-native/native-audio/ngx';
-import { ParametrosApp, Persona, Calle, Parametros, RegistroVisita, Emergencia, Ronda } from '../interfaces/fb-interface';
+import { ParametrosApp, Persona, Calle, Parametros, RegistroVisita, Emergencia, Ronda, Aviso } from '../interfaces/fb-interface';
 import { Noticia, Visita } from '../interfaces/fb-interface';
 import { Storage } from '@ionic/storage';
 import { ToastController } from '@ionic/angular';
@@ -15,6 +15,7 @@ import { AngularFireStorage } from '@angular/fire/storage';
   providedIn: 'root'
 })
 export class FirebaseService {
+  fechaHoyIso = moment().toISOString();
   randomNum = '';
   oneSignalIdCliente = '';
   oneSignalIdActualizado = false;
@@ -60,6 +61,7 @@ export class FirebaseService {
       emailOk: false,
       esAdmin: false,
       estado: '',
+      fechaRegistro: null,
       idPersona: '',
       movil: '',
       nombres: '',
@@ -77,7 +79,6 @@ export class FirebaseService {
   imagenes: any[] = [];
 
   collectionPersona: AngularFirestoreCollection<Persona>;
-  // collectionCalle: AngularFirestoreCollection<Calle>;
   collectionNoticia: AngularFirestoreCollection<Noticia>;
 
   constructor( private fbAuth: AngularFireAuth,
@@ -87,7 +88,6 @@ export class FirebaseService {
                private audio: NativeAudio,
                public loadCtrl: LoadingController,
                private afStorage: AngularFireStorage ) {
-    // console.log('constructor del fbSrvc');
 
     this.db.firestore.enablePersistence()
     .then ( () => {
@@ -97,10 +97,7 @@ export class FirebaseService {
         console.log('No se pudo habilitar persistencia de datos para FireBase: ', err.code);
     });
     this.collectionPersona = db.collection<Persona>('persona');
-    // this.collectionCalle = db.collection<Calle>('calles');
     this.collectionNoticia = db.collection<Noticia>('noticias');
-
-    // console.log('FIN constructor del fbSrvc');
   }
 
   creaCodigo() {
@@ -133,11 +130,51 @@ export class FirebaseService {
         noti.forEach( async result => {
           await result.ref.delete();
         });
-        console.log(`Eliminados ${noti.size} registros`);
+        console.log(`Eliminados ${noti.size} noticias`);
       });
     } else {
       return;
     }
+  }
+  async deleteAvisos() {
+    const fechaAnt = moment().startOf('day').subtract(2, 'days').toDate();
+    console.log(`Eliminando registros de Avisos anteriores a: '${fechaAnt}`);
+    return this.db.collection('avisos', ref => ref.where('fecha', '<', fechaAnt))
+    .get()
+    .subscribe( avi => {
+      avi.forEach( async result => {
+        await result.ref.delete();
+      });
+      console.log(`Eliminados ${avi.size} avisos`);
+    });
+  }
+  async deleteAviso(id: string) {
+    return this.db.collection('avisos', ref => ref.where('idAviso', '==', id))
+    .get()
+    .subscribe( avi => {
+      avi.forEach( async result => {
+        await result.ref.delete();
+      });
+      // console.log(`Eliminados ${avi.size} registros`);
+    });
+  }
+  async deleteUsuario(id: string) {
+    console.log('borrando usuario de bd id: ', id);
+    // this.db.collection('persona').doc(id).delete();
+    this.db.collection('persona', ref => ref.where('idPersona', '==', id))
+    .get()
+    .subscribe( usu => {
+      usu.forEach( async result => {
+        await result.ref.delete();
+        this.fbAuth.auth.currentUser.delete()
+        .then( () => {
+          console.log('fbAuth - usuario eliminado correctamente');
+        })
+        .catch( err => {
+          console.log('fbAuth - Error al eliminar usuario: ', err);
+        });
+      });
+    });
   }
   getCalles() {
     console.log('getCalles()');
@@ -149,6 +186,26 @@ export class FirebaseService {
     return this.db.collection<Emergencia>('emergencias', ref => ref.limit(this.parametrosFB.maxNumEmergencias)
                                                                    .orderBy('fechaInicio', 'desc'))
                                                                    .valueChanges();
+  }
+  getMisAvisos() {
+    console.log('getMisAvisos()');
+    const fechaInicioHoy = moment().startOf('day').toDate();
+    const fechaFinHoy = moment().endOf('day').toDate();
+    return this.db.collection<Aviso>('avisos', ref => ref.where('idDireccion', '==', this.parametros.codigoDir)
+                                                         .where('fecha', '>=', fechaInicioHoy)
+                                                         .where('fecha', '<=', fechaFinHoy)
+                                                         .where('vigente', '==', true)
+                                                         .orderBy('fecha', 'asc'))
+                                                         .valueChanges();
+  }
+  getMisAvisosProgramados() {
+    console.log('getMisAvisosProgramados()');
+    const fechaFinHoy = moment().endOf('day').toDate();
+    return this.db.collection<Aviso>('avisos', ref => ref.where('idDireccion', '==', this.parametros.codigoDir)
+                                                         .where('fecha', '>=', fechaFinHoy)
+                                                         .where('vigente', '==', true)
+                                                         .orderBy('fecha', 'asc'))
+                                                         .valueChanges();
   }
   getNoticias() {
     console.log(`getNoticias(${this.parametrosFB.maxNumNoticias})`);
@@ -218,27 +275,6 @@ export class FirebaseService {
                                                          .orderBy('fechaInicio', 'desc'))
                                                          .valueChanges();
   }
-  // async getUrlImagenes(salon: string) {
-  //   this.imagenes = [];
-  //   const fechaAnt = moment().subtract(this.parametrosFB.maxDiasChat, 'days').toDate();
-  //   return await this.db.collection(salon).ref.where('fecha', '<', fechaAnt)
-  //   .get()
-  //   .then( (querySnapshot) => {
-  //     querySnapshot.forEach( async doc => {
-  //       this.imagenes.push(doc.data());
-  //       if (this.imagenes[0].urlAdjunto.length > 0) {
-  //         const url = this.imagenes[0].urlAdjunto;
-  //         const ref = this.afStorage.storage.refFromURL(url);
-  //         await ref.delete();
-  //       }
-  //       console.log(this.imagenes);
-  //       this.imagenes.splice(0, 1);
-  //     });
-  //   })
-  //   .catch( err => {
-  //     console.log('Error al obtener url de imagenes. ', err );
-  //   });
-  // }
   async getUrlImagenesNoticias() {
     this.imagenes = [];
     const fechaAnt = moment().subtract(this.parametrosFB.maxDiasNoticias, 'days').toDate();
@@ -325,6 +361,25 @@ export class FirebaseService {
     });
     toast.present();
   }
+  async postAviso( avi: Aviso ) {
+    if (avi.nota.length > 0) {
+      await this.db.collection('avisos').add(avi)
+      .then( docRef => {
+        console.log('Aviso ID: ', docRef.id);
+        avi.idAviso = docRef.id;
+        this.putAviso(avi)
+        .then( () => {
+          console.log('Aviso Actualizado.');
+        })
+        .catch( err => {
+          console.log('Error al actualizar aviso: ', err);
+        });
+      })
+      .catch( err => {
+        console.log('Error al ingresar Aviso: ', err);
+      });
+    }
+  }
   async postEmergencia( eme: Emergencia ) {
     if (eme.obs.length > 0) {
       await this.db.collection('emergencias').add(eme)
@@ -368,6 +423,9 @@ export class FirebaseService {
   }
   postVisitas( visita: Visita) {
     return this.db.collection('visitas').doc(`${visita.idDireccion}`).set(visita);
+  }
+  putAviso( avi: Aviso) {
+    return this.db.collection('avisos').doc(avi.idAviso).update(avi);
   }
   putEmergencia( eme: Emergencia) {
     return this.db.collection('emergencias').doc(eme.idEmergencia).update(eme);

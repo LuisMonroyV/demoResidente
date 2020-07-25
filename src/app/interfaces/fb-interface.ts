@@ -1,3 +1,11 @@
+export interface Aviso {
+    avisar: boolean;
+    fecha: Date;
+    idAviso: string;
+    idDireccion: string;
+    nota: string;
+    vigente: boolean;
+}
 export interface Calle {
     descCalle: string;
 }
@@ -54,6 +62,7 @@ export interface Persona {
     emailOk: boolean;
     esAdmin: boolean;
     estado: string;
+    fechaRegistro: Date;
     idPersona: string;
     movil: null | string;
     nombres: string;

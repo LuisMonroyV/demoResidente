@@ -11,7 +11,9 @@ export class ModalRechazoComponent implements OnInit {
   motivo = '';
   constructor(private modalCtrl: ModalController) { }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.motivo = '';
+  }
   cerrarModal() {
     this.modalCtrl.dismiss();
   }

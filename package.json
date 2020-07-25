@@ -1,8 +1,8 @@
 {
-  "name": "cs-demo-residente",
+  "name": "cs-d-comunidad-segura",
   "version": "1.0.0",
   "author": "Luis Monroy V.",
-  "homepage": "https://monroy-ramirez.cl/comunidadSegura",
+  "homepage": "https://monroy-ramirez.cl/comunidadsegura",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
