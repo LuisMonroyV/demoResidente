@@ -15,7 +15,8 @@ import { AngularFireStorage } from '@angular/fire/storage';
   providedIn: 'root'
 })
 export class FirebaseService {
-  fechaHoyIso = moment().toISOString();
+  fechaHoyIso = '';
+  fechaMaxIso = '';
   randomNum = '';
   oneSignalIdCliente = '';
   oneSignalIdActualizado = false;
@@ -88,6 +89,13 @@ export class FirebaseService {
                private audio: NativeAudio,
                public loadCtrl: LoadingController,
                private afStorage: AngularFireStorage ) {
+    this.fechaHoyIso = moment().subtract(4, 'hours').toISOString();
+    console.log('fechaHoyIso -4:', this.fechaHoyIso);
+    this.fechaHoyIso = moment(this.fechaHoyIso).startOf('day').toISOString();
+    console.log('fechaHoyIso startOf:', this.fechaHoyIso);
+    this.fechaMaxIso = moment().subtract(4, 'hours').add(7, 'days').toISOString();
+    this.fechaMaxIso = moment(this.fechaMaxIso).startOf('day').add(7, 'days').toISOString();
+    console.log('fechaMaxIso:', this.fechaMaxIso);
 
     this.db.firestore.enablePersistence()
     .then ( () => {

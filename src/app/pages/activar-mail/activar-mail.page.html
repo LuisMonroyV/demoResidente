@@ -15,12 +15,14 @@
                 size="large"
                 color="danger"
                 *ngIf="!fbSrvc.parametros.verificado"
+                class="ion-padding"
                 >
       </ion-icon>
       <ion-icon name="checkmark-done-sharp"
                 size="large"
                 color="primary"
                 *ngIf="fbSrvc.parametros.verificado"
+                class="ion-padding"
                 >
       </ion-icon>
     </ion-list-header>
@@ -46,12 +48,14 @@
                 size="large"
                 color="danger"
                 *ngIf="!fbSrvc.parametros.validado"
+                class="ion-padding"
                 >
       </ion-icon>
       <ion-icon name="checkmark-done-sharp"
                 size="large"
                 color="primary"
                 *ngIf="fbSrvc.parametros.validado"
+                class="ion-padding"
                 >
       </ion-icon>
     </ion-list-header>
@@ -78,7 +82,7 @@
       <ion-text color="danger">Esto eliminará todos sus datos ingresados para poder empezar nuevamente.</ion-text>
     </div>
   </div>
-  <div class="ion-text-end ion-padding" *ngIf="fbSrvc.persona.estado === '0-nuevo'">
+  <div class="ion-text-end ion-padding" *ngIf="fbSrvc.persona.estado === '0-nuevo' || fbSrvc.persona.estado === '2-vigente'">
     <ion-chip color="primary" mode="ios" outline="true">
       <ion-icon name="alarm-outline" color="primary"></ion-icon>
       <ion-text color="primary">

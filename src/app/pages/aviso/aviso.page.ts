@@ -26,8 +26,8 @@ export class AvisoPage implements OnInit {
 
 
   constructor( public fbSrvc: FirebaseService) {
-    moment.locale('es');
-    console.log(this.fbSrvc.fechaHoyIso);
+    // moment.locale('es');
+    // console.log(this.fbSrvc.fechaHoyIso);
   }
 
   ngOnInit() {
@@ -61,7 +61,7 @@ export class AvisoPage implements OnInit {
   }
   guardarAviso() {
     this.guardando = true;
-    this.nuevoAviso.fecha = moment(this.fechaString).toDate();
+    this.nuevoAviso.fecha = moment(this.fechaString).startOf('day').toDate();
     this.fbSrvc.postAviso(this.nuevoAviso)
     .then( () => {
       const fechaFinHoy = moment().endOf('day').toDate();
@@ -108,6 +108,6 @@ export class AvisoPage implements OnInit {
     this.nuevoAviso.avisar = false;
     this.nuevoAviso.idAviso = '';
     this.nuevoAviso.nota = '';
-    this.fechaString = moment().toISOString();
+    this.fechaString = this.fbSrvc.fechaHoyIso;
   }
 }

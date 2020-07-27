@@ -96,7 +96,7 @@ export class ActivarMailPage implements OnInit {
         this.fbSrvc.putPersonaEmailOk(this.fbSrvc.persona);
       } else {
         console.log('Email NO verificado');
-        this.fbSrvc.mostrarMensaje('Esperando verificación de correo electrónico.');
+        this.fbSrvc.mostrarMensaje('Revise su correo electrónico: ' + this.fbSrvc.login.email);
       }
       // Validacion de administrador
       if (this.fbSrvc.parametros.validado) {
