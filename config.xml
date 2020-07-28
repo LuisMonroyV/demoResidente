@@ -3,7 +3,7 @@
     <name>Comunidad Segura - Residentes</name>
     <description>Comunidad Segura - Aplicación para residentes.</description>
     <author email="luis.monroyv@gmail.com" href="https://monroy-ramirez.cl/">Grupo Monroy-Ramirez</author>
-    <content original-src="index.html" src="http://localhost:8100" />
+    <content original-src="index.html" src="http://localhost:8101" />
     <access origin="*" />
     <allow-intent href="http://*/*" />
     <allow-intent href="https://*/*" />
@@ -113,4 +113,5 @@
     <plugin name="cordova-plugin-ionic-webview" spec="^4.0.0" />
     <plugin name="cordova-plugin-ionic-keyboard" spec="^2.0.5" />
     <allow-navigation href="http://localhost:8100" sessionid="5f358cd5" />
+    <allow-navigation href="http://localhost:8101" sessionid="2b0d16ea" />
 </widget>
